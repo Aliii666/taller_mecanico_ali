@@ -32,20 +32,60 @@ class ModelsIntegrationTest(TestCase):
 
 
 class AuthApiTest(TestCase):
-    def test_register_returns_tokens_and_user(self):
+    def test_register_returns_user(self):
         client = APIClient()
         response = client.post(
-            '/api/auth/registro/',
+            '/api/auth/register/',
             {
                 'username': 'nuevo',
                 'email': 'nuevo@example.com',
                 'password': 'secreto123',
-                'role': 'mecanico',
+                'password2': 'secreto123',
             },
             format='json',
         )
 
         self.assertEqual(response.status_code, 201)
-        self.assertIn('tokens', response.data)
-        self.assertIn('usuario', response.data)
-        self.assertEqual(response.data['usuario']['email'], 'nuevo@example.com')
+        self.assertIn('message', response.data)
+        self.assertIn('user', response.data)
+        self.assertEqual(response.data['user']['email'], 'nuevo@example.com')
+        self.assertEqual(response.data['user']['role']['name'], 'client')
+
+    def test_login_returns_tokens_and_user(self):
+        User = get_user_model()
+        User.objects.create_user(username='nuevo', email='nuevo@example.com', password='secreto123')
+
+        client = APIClient()
+        response = client.post(
+            '/api/auth/login/',
+            {
+                'email': 'nuevo@example.com',
+                'password': 'secreto123',
+            },
+            format='json',
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('access', response.data)
+        self.assertIn('refresh', response.data)
+        self.assertIn('user', response.data)
+
+    def test_me_requires_token(self):
+        User = get_user_model()
+        user = User.objects.create_user(username='nuevo', email='nuevo@example.com', password='secreto123')
+
+        client = APIClient()
+        login_response = client.post(
+            '/api/auth/login/',
+            {
+                'email': 'nuevo@example.com',
+                'password': 'secreto123',
+            },
+            format='json',
+        )
+
+        client.credentials(HTTP_AUTHORIZATION=f"Bearer {login_response.data['access']}")
+        me_response = client.get('/api/auth/me/')
+
+        self.assertEqual(me_response.status_code, 200)
+        self.assertEqual(me_response.data['email'], user.email)

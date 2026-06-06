@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import Usuario
+from .models import Usuario, Role, UserProfile
 
 @admin.register(Usuario)
 class UsuarioAdmin(UserAdmin):
@@ -16,3 +16,15 @@ class UsuarioAdmin(UserAdmin):
     add_fieldsets = (
         (None, {'fields': ('username', 'email', 'password1', 'password2', 'role')}),
     )
+
+
+@admin.register(Role)
+class RoleAdmin(admin.ModelAdmin):
+    list_display = ['id', 'name']
+    search_fields = ['name']
+
+
+@admin.register(UserProfile)
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ['id', 'user', 'first_name', 'last_name', 'timezone']
+    search_fields = ['user__username', 'user__email', 'first_name', 'last_name']

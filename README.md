@@ -99,9 +99,27 @@ Todas las rutas (excepto login/registro) requieren el token en el header:
 Authorization: Bearer <access_token>
 ```
 
+### Rutas actuales
+- `POST /api/auth/register/`
+- `POST /api/auth/login/`
+- `POST /api/auth/token/refresh/`
+- `GET /api/auth/me/`
+
+Rutas antiguas compatibles:
+- `POST /api/auth/registro/`
+- `GET /api/auth/perfil/`
+- `POST /api/auth/refresh/`
+
+### Flujo real del backend
+- `register` crea el usuario con rol `client` y también crea su perfil.
+- `login` devuelve `access`, `refresh` y `user`.
+- `me` devuelve el usuario autenticado completo.
+- `token/refresh` renueva el access token.
+
 ### Roles
-- `administrador` — acceso total
-- `mecanico` — puede crear/editar pero no eliminar ni gestionar el catálogo de servicios
+- `admin` — acceso total
+- `mechanic` — acceso operativo según permisos de las vistas
+- `client` — acceso básico autenticado
 
 ---
 
