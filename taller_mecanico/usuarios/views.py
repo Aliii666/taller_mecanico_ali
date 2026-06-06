@@ -29,6 +29,7 @@ class RegistroView(APIView):
             usuario = serializer.save()
             return Response({
                 'mensaje': 'Usuario creado exitosamente.',
+                'tokens': get_tokens(usuario),
                 'usuario': UsuarioSerializer(usuario).data,
             }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

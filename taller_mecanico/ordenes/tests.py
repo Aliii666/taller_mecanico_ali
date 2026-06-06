@@ -1,4 +1,5 @@
 from django.test import TestCase
+from rest_framework.test import APIClient
 from django.contrib.auth import get_user_model
 
 from taller_mecanico.clientes.models import Cliente
@@ -28,3 +29,23 @@ class ModelsIntegrationTest(TestCase):
         self.assertEqual(OrdenTrabajo.objects.count(), 1)
         self.assertEqual(Factura.objects.count(), 1)
         self.assertEqual(Pago.objects.count(), 1)
+
+
+class AuthApiTest(TestCase):
+    def test_register_returns_tokens_and_user(self):
+        client = APIClient()
+        response = client.post(
+            '/api/auth/registro/',
+            {
+                'username': 'nuevo',
+                'email': 'nuevo@example.com',
+                'password': 'secreto123',
+                'role': 'mecanico',
+            },
+            format='json',
+        )
+
+        self.assertEqual(response.status_code, 201)
+        self.assertIn('tokens', response.data)
+        self.assertIn('usuario', response.data)
+        self.assertEqual(response.data['usuario']['email'], 'nuevo@example.com')
