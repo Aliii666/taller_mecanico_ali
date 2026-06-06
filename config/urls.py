@@ -1,6 +1,15 @@
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework_simplejwt.views import TokenRefreshView
+try:
+    from rest_framework_simplejwt.views import TokenRefreshView
+except Exception:
+    from django.http import JsonResponse
+    from django.views import View
+
+    class TokenRefreshView(View):
+        def post(self, request, *args, **kwargs):
+            return JsonResponse({'detail': 'token refresh unavailable in this environment'}, status=501)
+
 from taller_mecanico.usuarios.views import LoginView, RegistroView, PerfilView
 
 urlpatterns = [

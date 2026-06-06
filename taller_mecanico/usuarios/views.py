@@ -2,11 +2,17 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework_simplejwt.tokens import RefreshToken
+try:
+    from rest_framework_simplejwt.tokens import RefreshToken
+except Exception:
+    RefreshToken = None
+
 from .serializers import RegistroSerializer, LoginSerializer, UsuarioSerializer
 
 
 def get_tokens(user):
+    if RefreshToken is None:
+        return {'refresh': 'unavailable', 'access': 'unavailable'}
     refresh = RefreshToken.for_user(user)
     return {
         'refresh': str(refresh),
