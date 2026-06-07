@@ -14,8 +14,12 @@ class RegistroView(APIView):
         serializer = RegistroSerializer(data=request.data)
         if serializer.is_valid():
             usuario = serializer.save()
+            from rest_framework_simplejwt.tokens import RefreshToken
+            refresh = RefreshToken.for_user(usuario)
             return Response({
                 'message': 'Usuario registrado exitosamente.',
+                'access': str(refresh.access_token),
+                'refresh': str(refresh),
                 'user': UsuarioSerializer(usuario).data,
             }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
