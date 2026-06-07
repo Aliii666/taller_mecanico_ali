@@ -1,0 +1,27 @@
+{
+	"id": "e93fc45c-20bd-4ff2-8d77-a8596541f5e8",
+	"name": "Taller Mecánico - Producción (IP)",
+	"values": [
+		{
+			"key": "base_url",
+			"value": "http://153.75.250.78",
+			"type": "text",
+			"enabled": true
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "text",
+			"enabled": true
+		},
+		{
+			"key": "refresh_token",
+			"value": "",
+			"type": "text",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2026-06-07T18:30:00.000Z",
+	"_postman_exported_using": "Postman/10.0.0"
+}

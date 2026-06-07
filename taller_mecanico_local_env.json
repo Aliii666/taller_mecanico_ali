@@ -1,0 +1,27 @@
+{
+	"id": "b85a47c2-9654-4a25-8ff2-20bd8b51d45d",
+	"name": "Taller Mecánico - Local",
+	"values": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8000",
+			"type": "text",
+			"enabled": true
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "text",
+			"enabled": true
+		},
+		{
+			"key": "refresh_token",
+			"value": "",
+			"type": "text",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2026-06-07T18:30:00.000Z",
+	"_postman_exported_using": "Postman/10.0.0"
+}
