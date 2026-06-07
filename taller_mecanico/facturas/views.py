@@ -9,6 +9,7 @@ from .serializers import FacturaSerializer
 class FacturaViewSet(viewsets.ModelViewSet):
     serializer_class = FacturaSerializer
     http_method_names = ['get', 'post', 'head', 'options']  # Sin PUT/DELETE directo
+    search_fields    = ['orden__vehiculo__placa', 'orden__vehiculo__cliente__nombre']
 
     def get_queryset(self):
         qs = Factura.objects.select_related('orden__vehiculo__cliente')
