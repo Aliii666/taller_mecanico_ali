@@ -7,8 +7,8 @@ pymysql.install_as_MySQLdb()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-cambiar-en-produccion')
-DEBUG = True
-ALLOWED_HOSTS = ['*', '10.0.2.2', 'localhost', '127.0.0.1']
+DEBUG = config('DEBUG', default=False, cast=bool)
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost', cast=lambda v: [s.strip() for s in v.split(',')])
 
 # ─── Aplicaciones ────────────────────────────────────────────────────────────
 INSTALLED_APPS = [
@@ -103,6 +103,7 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
     ),
 }
 
