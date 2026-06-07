@@ -8,6 +8,7 @@ from .serializers import ServicioSerializer
 class ServicioViewSet(viewsets.ModelViewSet):
     queryset         = Servicio.objects.all()
     serializer_class = ServicioSerializer
+    search_fields    = ['nombre', 'descripcion']
 
     def get_permissions(self):
         # Solo admin puede crear, editar y eliminar servicios
