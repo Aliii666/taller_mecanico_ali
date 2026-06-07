@@ -1,0 +1,911 @@
+{
+	"info": {
+		"_postman_id": "8b51d45c-20bd-4ff2-8d77-a8596541f5e8",
+		"name": "Taller Mecánico API",
+		"description": "Colección de Postman para el Backend del Taller Mecánico, compatible con acceso por dominio y por IP pública.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"nuevo_usuario\",\n    \"email\": \"usuario@taller.com\",\n    \"password\": \"ClaveSegura123\",\n    \"role\": \"client\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/register/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.tokens && jsonData.tokens.access) {",
+									"    pm.environment.set(\"token\", jsonData.tokens.access);",
+									"    pm.environment.set(\"refresh_token\", jsonData.tokens.refresh);",
+									"} else if (jsonData.access) {",
+									"    pm.environment.set(\"token\", jsonData.access);",
+									"    pm.environment.set(\"refresh_token\", jsonData.refresh);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@taller.com\",\n    \"password\": \"123456\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Token Refresh",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refresh\": \"{{refresh_token}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/token/refresh/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"token",
+								"refresh",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Profile (Me)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/auth/me/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"me",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Clientes",
+			"item": [
+				{
+					"name": "List Clientes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/clientes/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"clientes",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Cliente",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Juan Pérez\",\n    \"telefono\": \"0991234567\",\n    \"direccion\": \"Av. Amazonas 123\",\n    \"correo\": \"juan@email.com\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/clientes/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"clientes",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Cliente Detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/clientes/1/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"clientes",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Cliente",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Juan Pérez Actualizado\",\n    \"telefono\": \"0997654321\",\n    \"direccion\": \"Av. Shyris 456\",\n    \"correo\": \"juan_nuevo@email.com\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/clientes/1/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"clientes",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Cliente (Admin Only)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/clientes/1/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"clientes",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Vehículos",
+			"item": [
+				{
+					"name": "List Vehículos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/vehiculos/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"vehiculos",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Vehículo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cliente\": 1,\n    \"marca\": \"Toyota\",\n    \"modelo\": \"Corolla\",\n    \"placa\": \"ABC-1234\",\n    \"anio\": 2020\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/vehiculos/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"vehiculos",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Vehículo Detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/vehiculos/1/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"vehiculos",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Vehículo",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cliente\": 1,\n    \"marca\": \"Toyota\",\n    \"modelo\": \"Yaris\",\n    \"placa\": \"ABC-1234\",\n    \"anio\": 2022\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/vehiculos/1/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"vehiculos",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Vehículo (Admin Only)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/vehiculos/1/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"vehiculos",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Servicios",
+			"item": [
+				{
+					"name": "List Servicios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/servicios/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"servicios",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Servicio (Admin Only)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Cambio de aceite\",\n    \"descripcion\": \"Aceite sintético + filtro\",\n    \"precio\": \"25.00\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/servicios/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"servicios",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Servicio Detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/servicios/1/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"servicios",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Servicio (Admin Only)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Cambio de aceite premium\",\n    \"descripcion\": \"Aceite sintético Mobil1 + filtro premium\",\n    \"precio\": \"35.00\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/servicios/1/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"servicios",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Servicio (Admin Only)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/servicios/1/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"servicios",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Órdenes de Trabajo",
+			"item": [
+				{
+					"name": "List Órdenes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/ordenes/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"ordenes",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Órdenes con Filtro Estado",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/ordenes/?estado=pendiente",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"ordenes",
+								""
+							],
+							"query": [
+								{
+									"key": "estado",
+									"value": "pendiente"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Orden",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"vehiculo\": 1,\n    \"mecanico\": 2,\n    \"observaciones\": \"Ruido extraño al arrancar\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/ordenes/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"ordenes",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Orden Detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/ordenes/1/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"ordenes",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Orden Estado",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"estado\": \"en_proceso\",\n    \"observaciones\": \"Revisión del motor iniciada\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/ordenes/1/estado/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"ordenes",
+								"1",
+								"estado",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Orden (Admin Only)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/ordenes/1/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"ordenes",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Facturas",
+			"item": [
+				{
+					"name": "List Facturas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/facturas/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"facturas",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Facturas con Filtro Pago",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/facturas/?estado_pago=pendiente",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"facturas",
+								""
+							],
+							"query": [
+								{
+									"key": "estado_pago",
+									"value": "pendiente"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Factura",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"orden\": 1,\n    \"total\": \"125.50\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/facturas/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"facturas",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Factura Detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/facturas/1/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"facturas",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Marcar Factura Pagada Manual",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/facturas/1/marcar-pagada/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"facturas",
+								"1",
+								"marcar-pagada",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pagos",
+			"item": [
+				{
+					"name": "List Pagos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/pagos/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"pagos",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Pago",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"factura\": 1,\n    \"metodo_pago\": \"efectivo\",\n    \"monto\": \"125.50\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/pagos/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"pagos",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Pago Detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/pagos/1/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"pagos",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "System Health",
+			"item": [
+				{
+					"name": "Check Health",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/health",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"health"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://mazsorra-taller.uaeftt-ute.site",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "tu_token_aqui",
+			"type": "string"
+		},
+		{
+			"key": "refresh_token",
+			"value": "tu_refresh_token_aqui",
+			"type": "string"
+		}
+	]
+}
