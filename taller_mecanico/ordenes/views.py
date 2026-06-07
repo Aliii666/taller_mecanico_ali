@@ -9,6 +9,7 @@ from .serializers import OrdenTrabajoSerializer, CambioEstadoSerializer
 
 class OrdenTrabajoViewSet(viewsets.ModelViewSet):
     serializer_class = OrdenTrabajoSerializer
+    search_fields    = ['vehiculo__placa', 'vehiculo__marca', 'vehiculo__modelo', 'mecanico__username', 'vehiculo__cliente__nombre']
 
     def get_queryset(self):
         qs = OrdenTrabajo.objects.select_related('vehiculo__cliente', 'mecanico')
